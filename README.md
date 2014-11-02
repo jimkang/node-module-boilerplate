@@ -29,24 +29,19 @@ Use that thing.
 
 Success!
 
-__In the browser__
+Specification
+-------------
 
-    make browserify
-
-Then:
-
-    make minbrowserify
-
-After that, include `<script src="yetanothermodule-browserified.min.js">` in your html file. Then, in your JavaScript file:
-
-    var thing = exportname.createThing();
-
-[Here's a working example.](http://jimkang.com/yet-another-module/example)
+something(buh) =>
+> Given:
+- buh is a thing
+> Then:
+- something gets whatever
 
 Tests
 -----
 
-Run tests with `npm test`. Run tests in the debugger with 'npm run-script dtest'.
+Run tests with `make test`.
 
 License
 -------
