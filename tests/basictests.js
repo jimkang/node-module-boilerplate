@@ -1,10 +1,8 @@
-var assert = require('assert');
-var thingFactory = require('../yet-another-module');
+var test = require('tape');
+var yet-another-module = require('../index');
 
-describe('The basic stuff', function basicSuite() {
-  it('shoul do a thing', 
-    function testThing(testDone) {
-      testDone();
-    }
-  );
+test('Basic test', function basicTest(t) {
+  t.plan(1);
+
+  t.ok(true, 'Test description.');
 });
