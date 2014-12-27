@@ -15,28 +15,11 @@ Installation
 Usage
 -----
 
-Load the module somehow.
-
     var someFactory = require('yet-another-module');
-
-Create a thing from the module.
-
     var thing = someFactory();
-
-Use that thing.
-
     thing.use();
 
 Success!
-
-Specification
--------------
-
-something(buh) =>
-> Given:
-- buh is a thing
-> Then:
-- something gets whatever
 
 Tests
 -----
