@@ -1,5 +1,5 @@
 {
-  "name": "yet-another-module",
+  "name": "yet-another-app",
   "version": "1.0.0",
   "description": "Does some cool things.",
   "main": "index.js",
@@ -8,17 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:jimkang/yet-another-module.git"
+    "url": "git@github.com:jimkang/yet-another-app.git"
   },
   "keywords": [],
   "author": "Jim Kang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jimkang/yet-another-module/issues"
+    "url": "https://github.com/jimkang/yet-another-app/issues"
   },
-  "homepage": "https://github.com/jimkang/yet-another-module",
+  "homepage": "https://github.com/jimkang/yet-another-app",
   "devDependencies": {
     "tape": "^3.0.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "browserify": "^8.1.1"
+  }
 }
