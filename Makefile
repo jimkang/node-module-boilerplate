@@ -26,17 +26,11 @@ run:
 	wzrd index.js -- \
 		-d \
 		-x idmaker \
-		-x probable \
-		-x seedrandom \
-		-x lodash \
-		-x async
+		-x lodash
 
 pch: smash # smash-debug
 	node_modules/.bin/browserify \
 		lib/d3-small.js \
-		-r probable \
-		-r seedrandom \
 		-r idmaker \
 		-r lodash \
-		-r async \
 		-o pch.js
