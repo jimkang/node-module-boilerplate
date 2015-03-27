@@ -1,25 +1,29 @@
-yet-another-module
+yet-another-app
 ==================
 
-This module is for something or other. For example:
-
-    code and what not
-
-Etc.!
+This is a browser app that does some stuff.
 
 Installation
 ------------
 
-    npm install yet-another-module
+    npm install
+    npm install wzrd -g
 
 Usage
 -----
 
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
+    make run    
 
-Success!
+Or run [wzrd](https://github.com/maxogden/wzrd) directly:
+
+    wzrd index.js
+
+Then, wzrd will say something like:
+
+    wzrd index.js
+    server started at http://localhost:9966
+
+You can open your browser to that.
 
 Tests
 -----

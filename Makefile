@@ -1,25 +1,36 @@
-HOMEDIR = $(shell pwd)
-GITDIR = /var/repos/yet-another-module.git
-PM2 = $(HOMEDIR)/node_modules/pm2/bin/pm2
+run:
+	wzrd index.js
 
 test:
 	node tests/basictests.js
 
-start: start-yet-another-module
-	$(PM2) start yet-another-module.js --name yet-another-module
+D3SRC = node_modules/d3/src
 
-stop:
-	$(PM2) stop yet-another-module || echo "Didn't need to stop process."
+D3_LIBRARY_FILES = \
+	$(D3SRC)/start.js \
+	$(D3SRC)/compat/index.js \
+	$(D3SRC)/selection/selection.js \
+	$(D3SRC)/arrays/range.js \
+	$(D3SRC)/transition/index.js \
+	$(D3SRC)/event/mouse.js \
+	$(D3SRC)/end.js
 
-list:
-	$(PM2) list
+smash: $(D3_LIBRARY_FILES)
+	node_modules/.bin/smash $(D3_LIBRARY_FILES) | \
+	node_modules/.bin/uglifyjs - -c -m -o lib/d3-small.js
 
-sync-worktree-to-git:
-	git --work-tree=$(HOMEDIR) --git-dir=$(GITDIR) checkout -f
+smash-debug: $(D3_LIBRARY_FILES)
+	node_modules/.bin/smash $(D3_LIBRARY_FILES) > lib/d3-small.js
 
-npm-install:
-	cd $(HOMEDIR)
-	npm install
-	npm prune
+run:
+	wzrd index.js -- \
+		-d \
+		-x idmaker \
+		-x lodash
 
-post-receive: sync-worktree-to-git npm-install stop start
+pch: smash # smash-debug
+	node_modules/.bin/browserify \
+		lib/d3-small.js \
+		-r idmaker \
+		-r lodash \
+		-o pch.js
