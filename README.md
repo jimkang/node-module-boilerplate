@@ -1,25 +1,29 @@
 yet-another-module
 ==================
 
-This module is for something or other. For example:
-
-    code and what not
-
-Etc.!
+This is a bot that does a thing.
 
 Installation
 ------------
 
-    npm install yet-another-module
+Clone this repo.
+
+Then, create a `config.js` file in the project root that contains [Twitter API keys](https://apps.twitter.com/) and [Wordnik API key](http://developer.wordnik.com/). Example:
+
+    module.exports = {
+      twitter: {
+        consumer_key: 'asdfkljqwerjasdfalpsdfjas',
+        consumer_secret: 'asdfasdjfbkjqwhbefubvskjhfbgasdjfhgaksjdhfgaksdxvc',
+        access_token: '9999999999-zxcvkljhpoiuqwerkjhmnb,mnzxcvasdklfhwer',
+        access_token_secret: 'opoijkljsadfbzxcnvkmokwertlknfgmoskdfgossodrh'
+      },
+      wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
+    };
 
 Usage
 -----
 
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
-
-Success!
+    make run
 
 Tests
 -----
