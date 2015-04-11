@@ -1,5 +1,5 @@
 var test = require('tape');
-var yet-another-module = require('../index');
+var yet-another-bookmarklet = require('../index');
 
 test('Basic test', function basicTest(t) {
   t.plan(1);
