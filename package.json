@@ -17,8 +17,7 @@
     "url": "https://github.com/jimkang/yet-another-module/issues"
   },
   "homepage": "https://github.com/jimkang/yet-another-module",
-  "devDependencies": {
-    "tape": "^3.0.3"
-  },
-  "dependencies": {}
+  "dependencies": {
+    "jsonfile": "^2.0.0"
+  }
 }

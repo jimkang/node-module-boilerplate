@@ -1,11 +1,7 @@
 yet-another-module
 ==================
 
-This module is for something or other. For example:
-
-    code and what not
-
-Etc.!
+This module simple collects <something>.
 
 Installation
 ------------
@@ -15,16 +11,11 @@ Installation
 Usage
 -----
 
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
+    var things = require('yet-another-module');
 
-Success!
+And things is an array of things.
 
-Tests
------
-
-Run tests with `make test`.
+You can also use the JSON file at `data/things.json` directly.
 
 License
 -------
