@@ -33,9 +33,6 @@ Run tests with `make test`.
 License
 -------
 
-License
--------
-
 The MIT License (MIT)
 
 Copyright (c) 2015 Jim Kang

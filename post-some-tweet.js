@@ -1,6 +1,7 @@
 var config = require('./config');
-var callBackOnNextTick = require('./conform-async');
+var callBackOnNextTick = require('conform-async').callBackOnNextTick;
 var Twit = require('twit');
+var async = require('async');
 
 var dryRun = false;
 if (process.argv.length > 2) {
@@ -8,30 +9,42 @@ if (process.argv.length > 2) {
 }
 
 var twit = new Twit(config.twitter);
+// var wordnok = createWordnok({
+//   apiKey: config.wordnikAPIKey,
+//   logger: {
+//     log: function noOp() {}
+//   }
+// });
+
+async.waterfall(
+  [
+    // kickOffFunction,
+    // theNextThing,
+    // theNextThingAfterThat,
+    postTweet
+  ],
+  wrapUp
+);
 
 function postTweet(text, done) {
-  if (opts.dryRun) {
-    log('Would have tweeted:', text);
+  if (dryRun) {
+    console.log('Would have tweeted:', text);
     callBackOnNextTick(done);
   }
   else {
-    twit.post(
-      'statuses/update',
-      {
-        status: text
-      },
-      function tweetDone(error, data, response) {
-        if (error) {
-          console.log(error);
-          console.log('data:', data);
-        }
-        else {
-          console.log('Posted to Twitter:', text);
-        }
-        done(error);
-      }
-    );
+    var body = {
+      status: text
+    };
+    twit.post('statuses/update', body, done);
   }
 }
 
-// Do some stuff.
+function wrapUp(error, data) {
+  if (error) {
+    console.log(error, error.stack);
+
+    if (data) {
+      console.log('data:', data);
+    }
+  }
+}
