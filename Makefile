@@ -1,18 +1,14 @@
 HOMEDIR = $(shell pwd)
 GITDIR = /var/repos/yet-another-module.git
-PM2 = $(HOMEDIR)/node_modules/pm2/bin/pm2
 
 test:
 	node tests/basictests.js
 
 start: start-yet-another-module
-	$(PM2) start yet-another-module.js --name yet-another-module
+	psy start -n yet-another-module -- node yet-another-module.js
 
 stop:
-	$(PM2) stop yet-another-module || echo "Didn't need to stop process."
-
-list:
-	$(PM2) list
+	psy stop yet-another-module || echo "Non-zero return code is OK."
 
 sync-worktree-to-git:
 	git --work-tree=$(HOMEDIR) --git-dir=$(GITDIR) checkout -f
