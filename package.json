@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "conform-async": "^1.1.1",
+    "call-next-tick": "^1.1.2",
     "twit": "^1.1.20"
   }
 }

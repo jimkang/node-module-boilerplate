@@ -1,5 +1,5 @@
 var config = require('./config');
-var callBackOnNextTick = require('conform-async').callBackOnNextTick;
+var callNextTick = require('call-next-tick');
 var Twit = require('twit');
 var async = require('async');
 
@@ -29,7 +29,7 @@ async.waterfall(
 function postTweet(text, done) {
   if (dryRun) {
     console.log('Would have tweeted:', text);
-    callBackOnNextTick(done);
+    callNextTick(done);
   }
   else {
     var body = {
