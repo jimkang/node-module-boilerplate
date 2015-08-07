@@ -34,3 +34,16 @@ pch: smash # smash-debug
 		-r idmaker \
 		-r lodash \
 		-o pch.js
+
+pushall:
+	git push origin master && git push origin gh-pages
+
+ifndef PROJECTNAME
+init-project:
+	$(error PROJECTNAME is not set. Usage: make init-project PROJECTNAME=your-name)
+else
+init-project:
+	rm -rf .git
+	find . -type f -print0 | xargs -0 sed -i 's/yet-another-module/$(PROJECTNAME)/g'
+	git init
+endif
