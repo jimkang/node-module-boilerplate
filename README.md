@@ -1,6 +1,12 @@
 yet-another-module
 ==================
 
+To use node-module-boilerplate:
+
+- Clone this repo.
+- Check out the branch that corresponds to the kind of project you want. (Use `git branch -v` to list the branches.)
+- Run `make init-project PROJECTNAME="your project name"`. Then, replace this README with information on how to get started with your project.
+
 This module is for something or other. For example:
 
     code and what not
@@ -18,8 +24,6 @@ Usage
     var someFactory = require('yet-another-module');
     var thing = someFactory();
     thing.use();
-
-Success!
 
 Tests
 -----
