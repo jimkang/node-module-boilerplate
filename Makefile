@@ -20,3 +20,16 @@ npm-install:
 	npm prune
 
 post-receive: sync-worktree-to-git npm-install stop start
+
+pushall:
+	git push origin master && npm publish
+
+ifndef PROJECTNAME
+init-project:
+	$(error PROJECTNAME is not set. Usage: make init-project PROJECTNAME=your-name)
+else
+init-project:
+	rm -rf .git
+	find . -type f -print0 | xargs -0 sed -i 's/yet-another-module/$(PROJECTNAME)/g'
+	git init
+endif
