@@ -29,6 +29,6 @@ init-project:
 else
 init-project:
 	rm -rf .git
-	find . -type f -print0 | xargs -0 sed -i '' 's/yet-another-module/$(PROJECTNAME)/g'
+	find . -type f -print0 | xargs -0 sed -i  '' -e 's/yet-another-module/$(PROJECTNAME)/g'
 	git init
 endif
