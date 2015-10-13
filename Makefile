@@ -22,4 +22,3 @@ post-receive: sync-worktree-to-git npm-install stop start
 
 pushall:
 	git push origin master && git push server master
-
