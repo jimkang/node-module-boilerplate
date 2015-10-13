@@ -1,13 +1,7 @@
 yet-another-bookmarklet
 ==================
 
-To use node-module-boilerplate:
-
-- Clone this repo.
-- Check out the branch that corresponds to the kind of project you want. (Use `git branch -v` to list the branches.)
-- Run `make init-project PROJECTNAME="your project name"`. Then, replace this README with information on how to get started with your project.
-
-This is a bookmarklet and possibly a Chrome extension that does some stuff.
+cool-description-goes-here
 
 Installation
 ------------
@@ -18,15 +12,10 @@ Installation
 4. Check "Developer mode".
 5. Hit "Load unpacked extension" and point to the `chrome` directory in this repo.
 
-<<<<<<< HEAD
 Structure
 ---------
 
 __background.js__, in a Chrome extension, waits around in the (wait for it) background to respond to the user hitting the extension's button. When that happens, it loads bookmarklet.js to be executed in the context of the page in the current tab.
-=======
-Tests
------
->>>>>>> 4c14b27... Added init-project target to replace all the instances of 'yet-another-module'.
 
 __bookmarklet.js__ then does stuff with the loaded DOM.
 
