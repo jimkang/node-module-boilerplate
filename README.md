@@ -1,6 +1,7 @@
 yet-another-module
 ==================
 
+<<<<<<< HEAD
 To use node-module-boilerplate:
 
 - Clone this repo.
@@ -12,6 +13,9 @@ This module is for something or other. For example:
     code and what not
 
 Etc.!
+=======
+cool-description-goes-here
+>>>>>>> master
 
 This is a bot that does a thing.
 
@@ -35,7 +39,13 @@ Then, create a `config.js` file in the project root that contains [Twitter API k
 Usage
 -----
 
+<<<<<<< HEAD
     make run
+=======
+    var someFactory = require('yet-another-module');
+    var thing = someFactory();
+    thing.use();
+>>>>>>> master
 
 Tests
 -----

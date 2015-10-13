@@ -1,7 +1,3 @@
-HOMEDIR = $(shell pwd)
-GITDIR = /var/repos/yet-another-module.git
-PM2 = $(HOMEDIR)/node_modules/pm2/bin/pm2
-
 test:
 	node tests/basictests.js
 
@@ -22,14 +18,4 @@ npm-install:
 post-receive: sync-worktree-to-git npm-install stop start
 
 pushall:
-	git push origin master && npm publish
-
-ifndef PROJECTNAME
-init-project:
-	$(error PROJECTNAME is not set. Usage: make init-project PROJECTNAME=your-name)
-else
-init-project:
-	rm -rf .git
-	find . -type f -print0 | xargs -0 sed -i  '' -e 's/yet-another-module/$(PROJECTNAME)/g'
-	git init
-endif
+	git push origin master && git push server master
