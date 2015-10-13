@@ -1,6 +1,3 @@
-run:
-	wzrd index.js
-
 test:
 	node tests/basictests.js
 
@@ -24,9 +21,7 @@ smash-debug: $(D3_LIBRARY_FILES)
 
 run:
 	wzrd index.js -- \
-		-d \
-		-x idmaker \
-		-x lodash
+		-d
 
 pch: smash # smash-debug
 	node_modules/.bin/browserify \
@@ -38,12 +33,12 @@ pch: smash # smash-debug
 pushall:
 	git push origin master && git push origin gh-pages
 
-ifndef PROJECTNAME
+ifndef NAME
 init-project:
-	$(error PROJECTNAME is not set. Usage: make init-project PROJECTNAME=your-name)
+	$(error NAME is not set. Usage: make init-project NAME=your-name)
 else
 init-project:
 	rm -rf .git
-	find . -type f -print0 | xargs -0 sed -i '' 's/yet-another-module/$(PROJECTNAME)/g'
+	find . -type f -name '*' -exec sed -i '' s/does-this-work/does-this-work/ {} +
 	git init
 endif
