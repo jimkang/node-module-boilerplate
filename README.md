@@ -1,4 +1,4 @@
-yet-another-app
+yet-another-module
 ==================
 
 To use node-module-boilerplate:

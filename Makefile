@@ -32,13 +32,3 @@ pch: smash # smash-debug
 
 pushall:
 	git push origin master && git push origin gh-pages
-
-ifndef NAME
-init-project:
-	$(error NAME is not set. Usage: make init-project NAME=your-name)
-else
-init-project:
-	rm -rf .git
-	find . -type f -name '*' -exec sed -i '' s/does-this-work/does-this-work/ {} +
-	git init
-endif
