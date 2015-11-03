@@ -1,3 +1,5 @@
+HOMEDIR = $(shell pwd)
+
 test:
 	node tests/basictests.js
 
@@ -17,5 +19,33 @@ npm-install:
 
 post-receive: sync-worktree-to-git npm-install stop start
 
-pushall:
-	git push origin master && git push server master
+stop-docker-machine:
+	docker-machine stop dev
+
+start-docker-machine:
+	docker-machine start dev
+
+create-docker-machine:
+	docker-machine create --driver virtualbox dev
+
+stop-docker-machine:
+	docker-machine stop dev
+
+start-docker-machine:
+	docker-machine start dev
+
+# connect-to-docker-machine:
+	# eval "$(docker-machine env dev)"
+
+build-docker-image:
+	docker build -t jkang/yet-another-module .
+
+push-docker-image: build-docker-image
+	docker push jkang/yet-another-module
+
+run-docker-image:
+	docker run -v $(HOMEDIR)/config:/usr/src/app/config \
+		jkang/yet-another-module make run
+
+pushall: push-docker-image
+	git push origin master

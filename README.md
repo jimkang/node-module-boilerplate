@@ -1,30 +1,14 @@
 yet-another-module
 ==================
 
-<<<<<<< HEAD
-To use node-module-boilerplate:
-
-- Clone this repo.
-- Check out the branch that corresponds to the kind of project you want. (Use `git branch -v` to list the branches.)
-- Run `make init-project PROJECTNAME="your project name"`. Then, replace this README with information on how to get started with your project.
-
-This module is for something or other. For example:
-
-    code and what not
-
-Etc.!
-=======
 cool-description-goes-here
->>>>>>> master
-
-This is a bot that does a thing.
 
 Installation
 ------------
 
 Clone this repo.
 
-Then, create a `config.js` file in the project root that contains [Twitter API keys](https://gist.github.com/jimkang/34d16247b40097d8cace) and [Wordnik API key](http://developer.wordnik.com/). Example:
+Then, create a `config/config.js` file in the project root that contains [Twitter API keys](https://gist.github.com/jimkang/34d16247b40097d8cace) and [Wordnik API key](http://developer.wordnik.com/). Example:
 
     module.exports = {
       twitter: {
@@ -36,16 +20,20 @@ Then, create a `config.js` file in the project root that contains [Twitter API k
       wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
     };
 
+Or with Docker:
+
+    - Create a `config` directory containing the `config.js` file as above.
+
 Usage
 -----
 
-<<<<<<< HEAD
     make run
-=======
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
->>>>>>> master
+
+
+With Docker:
+
+    docker run -v $(HOMEDIR)/config:/usr/src/app/config \
+        jkang/yet-another-module make run
 
 Tests
 -----
