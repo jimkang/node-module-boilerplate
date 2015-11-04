@@ -1,4 +1,4 @@
-FROM jkang/prebuilt-rime
+FROM jkang/headporters
 
 # cwd is /usr/src/app
 # cache package.json (included in .) and node_modules to speed up builds
@@ -7,3 +7,5 @@ RUN npm install
 
 # Add source files
 ADD . .
+
+CMD make start-yet-another-module

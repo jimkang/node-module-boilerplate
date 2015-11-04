@@ -33,7 +33,8 @@ Usage
 With Docker:
 
     docker run -v $(HOMEDIR)/config:/usr/src/app/config \
-        jkang/yet-another-module make run
+        -v $(HOMEDIR)/data:/usr/src/app/data \
+        jkang/yet-another-module
 
 Tests
 -----
