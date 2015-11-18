@@ -6,14 +6,35 @@ cool-description-goes-here
 Installation
 ------------
 
-    npm install yet-another-module
+Clone this repo.
+
+Then, create a `config/config.js` file in the project root that contains [Twitter API keys](https://gist.github.com/jimkang/34d16247b40097d8cace) and [Wordnik API key](http://developer.wordnik.com/). Example:
+
+    module.exports = {
+      twitter: {
+        consumer_key: 'asdfkljqwerjasdfalpsdfjas',
+        consumer_secret: 'asdfasdjfbkjqwhbefubvskjhfbgasdjfhgaksjdhfgaksdxvc',
+        access_token: '9999999999-zxcvkljhpoiuqwerkjhmnb,mnzxcvasdklfhwer',
+        access_token_secret: 'opoijkljsadfbzxcnvkmokwertlknfgmoskdfgossodrh'
+      },
+      wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
+    };
+
+Or with Docker:
+
+    - Create a `config` directory containing the `config.js` file as above.
 
 Usage
 -----
 
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
+    make run
+
+
+With Docker:
+
+    docker run -v $(HOMEDIR)/config:/usr/src/app/config \
+        -v $(HOMEDIR)/data:/usr/src/app/data \
+        jkang/yet-another-module
 
 Tests
 -----

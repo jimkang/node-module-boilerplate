@@ -1,24 +1,33 @@
 HOMEDIR = $(shell pwd)
-GITDIR = /var/repos/yet-another-module.git
 
 test:
 	node tests/basictests.js
 
-start: start-yet-another-module
-	psy start -n yet-another-module -- node yet-another-module.js
+start:
+	node yet-another-module.js
 
-stop:
-	psy stop yet-another-module || echo "Non-zero return code is OK."
+create-docker-machine:
+	docker-machine create --driver virtualbox dev
 
-sync-worktree-to-git:
-	git --work-tree=$(HOMEDIR) --git-dir=$(GITDIR) checkout -f
+stop-docker-machine:
+	docker-machine stop dev
 
-npm-install:
-	cd $(HOMEDIR)
-	npm install
-	npm prune
+start-docker-machine:
+	docker-machine start dev
 
-post-receive: sync-worktree-to-git npm-install stop start
+# connect-to-docker-machine:
+	# eval "$(docker-machine env dev)"
 
-pushall:
-	git push origin master && git push server master
+build-docker-image:
+	docker build -t jkang/yet-another-module .
+
+push-docker-image: build-docker-image
+	docker push jkang/yet-another-module
+
+run-docker-image:
+	docker run -v $(HOMEDIR)/config:/usr/src/app/config \
+    -v $(HOMEDIR)/data:/usr/src/app/data \
+		jkang/yet-another-module
+
+pushall: push-docker-image
+	git push origin master
