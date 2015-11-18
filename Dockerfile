@@ -8,4 +8,4 @@ RUN npm install
 # Add source files
 ADD . .
 
-CMD make start-yet-another-module
+CMD make start
