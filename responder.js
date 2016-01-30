@@ -69,6 +69,7 @@ function respondToTweet(tweet) {
       twit.post('statuses/update', body, done);
     }
   }
+}
 
 function recordThatReplyHappened(tweetData, response, done) {
   var userId = tweetData.user.id_str;
