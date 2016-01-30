@@ -28,7 +28,7 @@ function shouldReplyToTweet(opts, done) {
   }
 
   var tweetMentionsBot = doesTweetMentionBot(tweet);
-
+debugger;
   if (behavior.chimeInUsers &&
     behavior.chimeInUsers.indexOf(tweet.user.screen_name) !== -1 &&
     !tweetMentionsBot) {
@@ -92,8 +92,13 @@ function shouldReplyToTweet(opts, done) {
 }
 
 function doesTweetMentionBot(tweet) {
-  var usernames = betterKnowATweet.whosInTheTweet(tweet);
-  return usernames && usernames.indexOf(username) !== -1;
+  debugger;
+  var usernames = betterKnowATweet.whosInTheTweet(tweet).map(lowerCase);
+  return usernames && usernames.indexOf(username.toLowerCase()) !== -1;
+}
+
+function lowerCase(s) {
+  return s.toLowerCase();
 }
 
 module.exports = shouldReplyToTweet;
