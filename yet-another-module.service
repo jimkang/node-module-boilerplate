@@ -1,0 +1,13 @@
+[Unit]
+Description=yet-another-module
+After=network.target
+[Service]
+ExecStart=/var/apps/yet-another-module/yet-another-module.js
+Restart=always
+User=app
+Group=app
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/apps/yet-another-module
+[Install]
+WantedBy=multi-user.target

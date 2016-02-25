@@ -20,21 +20,16 @@ Then, create a `config/config.js` file in the project root that contains [Twitte
       wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
     };
 
-Or with Docker:
-
-    - Create a `config` directory containing the `config.js` file as above.
+You need to create /var/apps/yet-another-module on your server.
 
 Usage
 -----
 
     make run
 
+Deploy:
 
-With Docker:
-
-    docker run -v $(HOMEDIR)/config:/usr/src/app/config \
-        -v $(HOMEDIR)/data:/usr/src/app/data \
-        jkang/yet-another-module
+    SMUSER=yourserverusername make sync
 
 Tests
 -----

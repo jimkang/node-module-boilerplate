@@ -1,42 +1,24 @@
 HOMEDIR = $(shell pwd)
+SSHCMD = ssh $(SMUSER)@smidgeo-headporters
+PROJECTNAME = yet-another-module
+APPDIR = /var/apps/$(PROJECTNAME)
 
-test:
-	node tests/basictests.js
-
-start:
-	node yet-another-module.js
-
-create-docker-machine:
-	docker-machine create --driver virtualbox dev
-
-stop-docker-machine:
-	docker-machine stop dev
-
-start-docker-machine:
-	docker-machine start dev
-
-# connect-to-docker-machine:
-	# eval "$(docker-machine env dev)"
-
-build-docker-image:
-	docker build -t jkang/yet-another-module .
-
-push-docker-image: build-docker-image
-	docker push jkang/yet-another-module
-
-# /tmp mapping is only for development.
-run-yet-another-module:
-	docker rm -f yet-another-module || \
-		echo "yet-another-module did not need removal."
-	docker run \
-		-d \
-		--restart=always \
-		--name yet-another-module \
-		-v $(HOMEDIR)/config:/usr/src/app/config \
-		-v /tmp:/usr/src/app/data \
-		-p 49160:8080 \
-		jkang/yet-another-module \
-		node yet-another-module.js
-
-pushall: push-docker-image
+pushall: sync
 	git push origin master
+
+sync:
+	rsync -a $(HOMEDIR) $(SMUSER)@smidgeo-headporters:/var/apps/ --exclude node_modules/ --exclude data/
+	ssh $(SMUSER)@smidgeo-headporters "cd /var/apps/$(PROJECTNAME) && npm install"
+
+restart-remote:
+	$(SSHCMD) "systemctl restart $(PROJECTNAME)"
+
+set-permissions:
+	$(SSHCMD) "chmod +x $(APPDIR)/$(PROJECTNAME).js && \
+	chmod 777 -R $(APPDIR)/data/$(PROJECTNAME).db"
+
+update-remote: sync set-permissions restart-remote
+
+install-service:
+	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
+	systemctl daemon-reload"
