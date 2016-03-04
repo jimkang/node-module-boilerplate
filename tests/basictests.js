@@ -1,8 +1,25 @@
 var test = require('tape');
 var yet-another-bookmarklet = require('../index');
 
-test('Basic test', function basicTest(t) {
-  t.plan(1);
+var testCases = [
+  {
+    opts: {
+    },
+    expected: {
+    }
+  },
+  {
+    opts: {
+    },
+    expected: {
+    }
+  }
+];
 
-  t.ok(true, 'Test description.');
-});
+testCases.forEach(runTest);
+
+function runTest(testCase) {
+  test('Basic test', function basicTest(t) {
+    t.end();
+  });
+}
