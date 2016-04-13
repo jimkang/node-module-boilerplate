@@ -22,3 +22,8 @@ update-remote: sync set-permissions restart-remote
 install-service:
 	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
 	systemctl daemon-reload"
+
+set-up-directories:
+	$(SSHCMD) "mkdir -p $(APPDIR)/data"
+
+initial-setup: set-up-directories sync set-permissions install-service
