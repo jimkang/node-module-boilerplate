@@ -1,20 +1,33 @@
+#!/usr/bin/env node
+
 var config = require('./config/config');
 var callNextTick = require('call-next-tick');
 var Twit = require('twit');
 var async = require('async');
-var createChronicler = require('basicset-chronicler').createChronicler;
 var behavior = require('./behavior');
 var shouldReplyToTweet = require('./should-reply-to-tweet');
+var level = require('level');
+var Sublevel = require('level-sublevel')
+var getExclamationType = require('./get-exclamation').getExclamationType;
+var probable = require('probable');
+var getPrelude = require('./get-prelude');
 
 var dryRun = false;
 if (process.argv.length > 2) {
   dryRun = (process.argv[2].toLowerCase() == '--dry');
 }
 
+
+var db = Sublevel(level(__dirname + '/data/yet-another-module-responses.db'));
+var lastReplyDates = db.sublevel('last-reply-dates');
+
 var username = behavior.twitterUsername;
 
-var chronicler = createChronicler({
-  dbLocation: __dirname + '/data/yet-another-module-chronicler.db'
+var responseTypeTable = probable.createTableFromDef({
+  '0-9': 'object',
+  '10': 'object-ngram-elaboration',
+  '11': 'random-verb-ngram-elaboration',
+  '12-14': 'simple-agreement'
 });
 
 var twit = new Twit(config.twitter);
@@ -26,10 +39,11 @@ var stream = twit.stream('user', streamOpts);
 stream.on('tweet', respondToTweet);
 stream.on('error', logError);
 
-function respondToTweet(tweet) {
+function respondToTweet(incomingTweet) {
   async.waterfall(
     [
       checkIfWeShouldReply,
+      getReplyBody,
       composeReply,
       postTweet,
       recordThatReplyHappened
@@ -39,15 +53,24 @@ function respondToTweet(tweet) {
 
   function checkIfWeShouldReply(done) {
     var opts = {
-      tweet: tweet,
-      chronicler: chronicler
+      tweet: incomingTweet,
+      lastReplyDates: lastReplyDates
     };
     shouldReplyToTweet(opts, done);
   }  
 
-  function composeReply(done) {
-    var text = '@' + tweet.user.screen_name + ' I am replying! ' +
-      emojisource.getRandomTopicEmoji();
+  function getReplyBody(done) {
+    var exclamationType = responseTypeTable.roll();
+    if (exclamationType === 'simple-agreement') {
+      callNextTick(done, null, getPrelude());
+    }
+    else {
+      getExclamationType(exclamationType, done);
+    }
+  }
+
+  function composeReply(exclamation, done) {
+    var text = '@' + incomingTweet.user.screen_name + ' ' + exclamation;
     callNextTick(done, null, text);
   }
 
@@ -64,16 +87,17 @@ function respondToTweet(tweet) {
     else {
       var body = {
         status: text,
-        in_reply_to_status_id: tweet.id_str
+        in_reply_to_status_id: incomingTweet.id_str
       };
       twit.post('statuses/update', body, done);
     }
   }
-}
 
-function recordThatReplyHappened(tweetData, response, done) {
-  var userId = tweetData.user.id_str;
-  chronicler.recordThatUserWasRepliedTo(userId, done);
+  function recordThatReplyHappened(tweetData, response, done) {
+    console.log('Put:', incomingTweet.user.id_str);
+
+    lastReplyDates.put(incomingTweet.user.id_str, tweetData.created_at, done);
+  }
 }
 
 function wrapUp(error, data) {

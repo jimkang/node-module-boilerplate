@@ -1,7 +1,6 @@
 var behavior = {
   hoursToWaitBetweenRepliesToSameUser: 2,
-  hoursToWaitBetweenRepliesToSameUser: 1,
-  twitterUsername: 'twitter_username'
+  twitterUsername: 'yet-another-module'
 };
 
 module.exports = behavior;

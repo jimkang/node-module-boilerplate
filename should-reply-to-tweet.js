@@ -3,18 +3,20 @@ var callNextTick = require('call-next-tick');
 var betterKnowATweet = require('better-know-a-tweet');
 var async = require('async');
 var behavior = require('./behavior');
+var createIsCool = require('iscool');
 
+var iscool = createIsCool();
 var username = behavior.twitterUsername;
 
 // Passes an error if you should not reply.
 function shouldReplyToTweet(opts, done) {
   var tweet;
-  var chronicler;
+  var lastReplyDates;
   var waitingPeriod;
 
   if (opts) {
     tweet = opts.tweet;
-    chronicler = opts.chronicler;
+    lastReplyDates = opts.lastReplyDates;
   }
 
   if (tweet.user.screen_name === username) {
@@ -27,8 +29,14 @@ function shouldReplyToTweet(opts, done) {
     return;
   }
 
+  var words = tweet.text.split(/[ ":.,;!?#]/);
+  if (!words.every(iscool)) {
+    callNextTick(done, new Error('Not cool to reply to tweet.'));
+    return;
+  }
+
   var tweetMentionsBot = doesTweetMentionBot(tweet);
-debugger;
+
   if (behavior.chimeInUsers &&
     behavior.chimeInUsers.indexOf(tweet.user.screen_name) !== -1 &&
     !tweetMentionsBot) {
@@ -58,28 +66,28 @@ debugger;
   }
 
   function findLastReplyDateForUser(tweet, done) {
-    chronicler.whenWasUserLastRepliedTo(
-      tweet.user.id.toString(), passLastReplyDate
-    );
+    console.log('Get:', tweet.user.id_str);
+    lastReplyDates.get(tweet.user.id_str, passLastReplyDate);
 
-    function passLastReplyDate(error, date) {
+    function passLastReplyDate(error, dateString) {
+      var date;
       // Don't pass on the error – `whenWasUserLastRepliedTo` can't find a
       // key, it returns a NotFoundError. For us, that's expected.
       if (error && error.type === 'NotFoundError') {
         error = null;
         date = new Date(0);
       }
+      else {
+        date = new Date(dateString);
+      }
       done(error, tweet, date);
     }
   }
 
-  function replyDateWasNotTooRecent(tweet, date, done) {
-    if (typeof date !== 'object') {
-      date = new Date(date);
-    }
-    var hoursElapsed = (Date.now() - date.getTime()) / (60 * 60 * 1000);
+  function replyDateWasNotTooRecent(tweet, lastReplyDate, done) {
+    var hoursElapsed = (Date.now() - lastReplyDate.getTime())/(60 * 60 * 1000);
 
-    if (hoursElapsed > waitingPeriod) {
+    if (hoursElapsed >= waitingPeriod) {
       done();
     }
     else {
@@ -92,9 +100,8 @@ debugger;
 }
 
 function doesTweetMentionBot(tweet) {
-  debugger;
   var usernames = betterKnowATweet.whosInTheTweet(tweet).map(lowerCase);
-  return usernames && usernames.indexOf(username.toLowerCase()) !== -1;
+  return !usernames || usernames.indexOf(username.toLowerCase()) !== -1;
 }
 
 function lowerCase(s) {

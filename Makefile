@@ -1,33 +1,24 @@
 HOMEDIR = $(shell pwd)
+SSHCMD = ssh $(SMUSER)@smidgeo-headporters
+PROJECTNAME = yet-another-module
+APPDIR = /var/apps/$(PROJECTNAME)
 
-test:
-	node tests/basictests.js
-
-start:
-	node responder.js
-
-create-docker-machine:
-	docker-machine create --driver virtualbox dev
-
-stop-docker-machine:
-	docker-machine stop dev
-
-start-docker-machine:
-	docker-machine start dev
-
-# connect-to-docker-machine:
-	# eval "$(docker-machine env dev)"
-
-build-docker-image:
-	docker build -t jkang/yet-another-module .
-
-push-docker-image: build-docker-image
-	docker push jkang/yet-another-module
-
-run-docker-image:
-	docker run -v $(HOMEDIR)/config:/usr/src/app/config \
-    -v $(HOMEDIR)/data:/usr/src/app/data \
-		jkang/yet-another-module make start
-
-pushall: push-docker-image
+pushall: sync restart-remote
 	git push origin master
+
+sync:
+	rsync -a $(HOMEDIR) $(SMUSER)@smidgeo-headporters:/var/apps/ --exclude node_modules/ --exclude data/
+	ssh $(SMUSER)@smidgeo-headporters "cd /var/apps/$(PROJECTNAME) && npm install"
+
+restart-remote:
+	$(SSHCMD) "systemctl restart $(PROJECTNAME)"
+
+set-permissions:
+	$(SSHCMD) "chmod +x $(APPDIR)/yet-another-module-responder.js && \
+	chmod 777 -R $(APPDIR)/data/yet-another-module-responses.db"
+
+update-remote: sync set-permissions restart-remote
+
+install-service:
+	$(SSHCMD) "cp $(APPDIR)/$(PROJECTNAME).service /etc/systemd/system && \
+	systemctl daemon-reload"
