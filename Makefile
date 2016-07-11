@@ -1,3 +1,6 @@
+BROWSERIFY = node_modules/.bin/browserify
+UGLIFY = node_modules/.bin/uglifyjs
+
 test:
 	node tests/basictests.js
 
