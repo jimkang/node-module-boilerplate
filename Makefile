@@ -1,15 +1,23 @@
-BROWSERIFY = node_modules/.bin/browserify
-UGLIFY = node_modules/.bin/uglifyjs
+BROWSERIFY = ./node_modules/.bin/browserify
+UGLIFY = ./node_modules/.bin/uglifyjs
+TRANSFORM_SWITCH = -t [ babelify --presets [ es2015 ] ]
+
+run:
+	wzrd app.js:index.js -- \
+		-d \
+		$(TRANSFORM_SWITCH)
+
+build:
+	$(BROWSERIFY) $(TRANSFORM_SWITCH) app.js | $(UGLIFY) -c -m -o index.js
 
 test:
 	node tests/basictests.js
 
-run:
-	wzrd app.js:index.js -- \
-		-d
-
-build:
-	$(BROWSERIFY) app.js | $(UGLIFY) -c -m -o index.js
-
 pushall:
-	git push origin master && git push origin gh-pages
+	git push origin gh-pages
+
+lint:
+	./node_modules/.bin/eslint .
+
+purifycss:
+	./node_modules/.bin/purifycss app.css app.js --info --out app.css
