@@ -27,5 +27,6 @@
     "uglify-js": "^2.4.17"
   },
   "dependencies": {
+    "qs": "^6.3.0"
   }
 }

@@ -17,7 +17,4 @@ pushall:
 	git push origin gh-pages
 
 lint:
-	./node_modules/.bin/eslint .
-
-purifycss:
-	./node_modules/.bin/purifycss app.css app.js --info --out app.css
+	eslint .
