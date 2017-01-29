@@ -8,40 +8,25 @@ Installation
 
 Clone this repo.
 
-Then, create a `config/config.js` file in the project root that contains [Twitter API keys](https://gist.github.com/jimkang/34d16247b40097d8cace) and [Wordnik API key](http://developer.wordnik.com/). Example:
-
-    module.exports = {
-      twitter: {
-        consumer_key: 'asdfkljqwerjasdfalpsdfjas',
-        consumer_secret: 'asdfasdjfbkjqwhbefubvskjhfbgasdjfhgaksjdhfgaksdxvc',
-        access_token: '9999999999-zxcvkljhpoiuqwerkjhmnb,mnzxcvasdklfhwer',
-        access_token_secret: 'opoijkljsadfbzxcnvkmokwertlknfgmoskdfgossodrh'
-      },
-      wordnikAPIKey: 'mkomniojnnuibiybvuytvutrctrxezewarewetxyfcftvuhbg'
-    };
-
-You need to create /var/apps/yet-another-module on your server.
-
 Usage
 -----
 
-    make run
+    node start-yet-another-server.js
 
 Deploy:
 
-    SMUSER=yourserverusername make sync
+    make initial-setup
 
-Tests
------
+Subsequent deploys:
 
-Run tests with `make test`.
+    make pushall
 
 License
 -------
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Jim Kang
+Copyright (c) 2017 Jim Kang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
