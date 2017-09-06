@@ -1,16 +1,40 @@
+var RouteState = require('route-state');
+var handleError = require('handle-error-web');
+var redirectToAuth = require('./redirect-to-auth');
 var qs = require('qs');
 
-((function go() {
-  var div = document.createElement('div');
-  div.innerText = 'Oh hay you need to make an app here.'
-  document.body.appendChild(div);
+var routeState = RouteState({
+  followRoute: followRoute,
+  windowObject: window
+});
 
-  route();
+((function go() {
+  routeState.routeFromHash();
+  window.onerror = reportTopLevelError;
 })());
 
-function route() {
-  // Skip the # part of the hash.
-  var routeDict = qs.parse(window.location.hash.slice(1));
+function followRoute(routeDict) {
+  if (!routeDict.access_token) {
+    redirectToAuth(routeDict);
+    return;
+  }
 
-  // Routing logic
+  if (routeDict.state) {
+    var thawedDict = unpackRoute(routeDict.state);
+    thawedDict.access_token = routeDict.access_token;
+    routeState.overwriteRouteEntirely(thawedDict);
+    return;
+  }
+
+  console.log(routeDict.code);
+  // Use the code to get an access token.
+  // TODO: Look at the key-value pairs in routeDict and decide how your app should respond based on that.
+}
+
+function unpackRoute(encodedStateFromRedirect) {
+  return qs.parse(decodeURIComponent(encodedStateFromRedirect));
+}
+
+function reportTopLevelError(msg, url, lineNo, columnNo, error) {
+  handleError(error);
 }
