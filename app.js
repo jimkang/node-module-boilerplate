@@ -1,16 +1,21 @@
-var qs = require('qs');
+var RouteState = require('route-state');
+var handleError = require('handle-error-web');
 
-((function go() {
-  var div = document.createElement('div');
-  div.innerText = 'Oh hay you need to make an app here.'
-  document.body.appendChild(div);
+var routeState = RouteState({
+  followRoute: followRoute,
+  windowObject: window
+});
 
-  route();
-})());
+(function go() {
+  window.onerror = reportTopLevelError;
+  routeState.routeFromHash();
+})();
 
-function route() {
-  // Skip the # part of the hash.
-  var routeDict = qs.parse(window.location.hash.slice(1));
+function followRoute(routeDict) {
+  // TODO: Look at the key-value pairs in routeDict and 
+  // decide how your app should respond based on that.
+}
 
-  // Routing logic
+function reportTopLevelError(msg, url, lineNo, columnNo, error) {
+  handleError(error);
 }
