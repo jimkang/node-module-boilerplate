@@ -11,17 +11,31 @@ First, install Node. Then:
     npm install
     npm install wzrd -g
 
+Create a `config.js` file that looks like this:
+
+    module.exports = {
+      github: {
+        clientId: 'github client id',
+        codeExchangeURL: 'your code exchange URL',
+        appName: 'yourgithubappname'
+      }
+    };
+
+`codeExchangeURL` refers to a service that will exchange a GitHub auth code (passed when the auth redirects you back) for an access token for you. e.g. http://myserver.com/exchange, at which you have running an instance of [github-token-exchanger](https://github.com/jimkang/github-token-exchanger).
+
+If you're using github-token-exchanger, `appName` is the name that github-token-exchanger knows your app by so that it can look up its client id and secret.
+
 Usage
 -----
 
-    make run    
+    make run-on-80
 
 Then, wzrd will say something like:
 
     wzrd index.js
-    server started at http://localhost:9966
+    server started at http://localhost:80
 
-You can open your browser to that.
+You can open your browser to localhost. It should immediately redirect you to GitHub to log you in. After you log in, it will redirect you back to whatever redirect URL you set in your [GitHub OAuth Apps settings](https://github.com/settings/developers). During development, you should put `http://localhost` in the Authorization Callback URL field and put the clientId for the app in your `config.js`.
 
 You can then add code starting in app.js. This won't compile down to ES 5 – expects clients to support ES 6. You can check out an earlier commit of this repo - d227984628e258a2cf82fa14926b0e452fe4f5f9 or earlier - if you want support for that.
 
