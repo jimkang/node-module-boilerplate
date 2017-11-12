@@ -1,20 +1,20 @@
 BROWSERIFY = ./node_modules/.bin/browserify
-UGLIFY = ./node_modules/.bin/uglifyjs
-TRANSFORM_SWITCH = -t [ babelify --presets [ es2015 ] ]
-
-run:
-	wzrd app.js:index.js -- \
-		-d \
-		$(TRANSFORM_SWITCH)
-
-build:
-	$(BROWSERIFY) $(TRANSFORM_SWITCH) app.js | $(UGLIFY) -c -m -o index.js
-
-test:
-	node tests/basictests.js
+UGLIFY = ./node_modules/uglify-es/bin/uglifyjs
 
 pushall:
 	git push origin gh-pages
 
-lint:
-	eslint .
+run:
+	wzrd app.js:index.js -- \
+		-d
+
+# Some apps needs to run at port 80 because some auth APIs will only redirect
+# back to port 80/443.
+run-on-80:
+	sudo wzrd app.js:index.js --port 80 -- -d
+
+build:
+	$(BROWSERIFY) app.js | $(UGLIFY) -c -m -o index.js
+
+prettier:
+	prettier --single-quote --write "**/*.js"

@@ -8,10 +8,10 @@ var routeState = RouteState({
   windowObject: window
 });
 
-((function go() {
-  routeState.routeFromHash();
+(function go() {
   window.onerror = reportTopLevelError;
-})());
+  routeState.routeFromHash();
+})();
 
 function followRoute(routeDict) {
   if (!routeDict.access_token) {
@@ -28,7 +28,8 @@ function followRoute(routeDict) {
 
   console.log(routeDict.code);
   // Use the code to get an access token.
-  // TODO: Look at the key-value pairs in routeDict and decide how your app should respond based on that.
+  // TODO: Look at the key-value pairs in routeDict and decide how your app 
+  // should respond based on that.
 }
 
 function unpackRoute(encodedStateFromRedirect) {
