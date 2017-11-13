@@ -39,6 +39,8 @@ You can open your browser to localhost. It should immediately redirect you to Gi
 
 You can then add code starting in app.js. This won't compile down to ES 5 – expects clients to support ES 6. You can check out an earlier commit of this repo - d227984628e258a2cf82fa14926b0e452fe4f5f9 or earlier - if you want support for that.
 
+If you want an example of reading and writing YAML files from GitHub, look at `read-write-from-store-flow.js`, `load-yaml-data.js`, and `save-yaml-data.js`.
+
 Run `make prettier` (expects you to have run `npm install -g prettier`) and `eslint .` before committing.
 
 License

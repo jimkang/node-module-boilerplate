@@ -4,6 +4,7 @@ var redirectToAuth = require('./redirect-to-auth');
 var qs = require('qs');
 var findGitHubToken = require('./find-github-token');
 var sb = require('standard-bail')();
+var readWriteFromStoreFlow = require('./flows/read-write-from-store-flow');
 var config = require('./config');
 
 var routeState = RouteState({
@@ -49,6 +50,8 @@ function followRouteUsingToken(routeDict) {
   // TODO: Look at the key-value pairs in routeDict and decide how your app
   // should respond based on that.
   console.log(routeDict.token);
+  // Example:
+  readWriteFromStoreFlow({ token: routeDict.token });
 }
 
 function addTokenToRoute(token) {
