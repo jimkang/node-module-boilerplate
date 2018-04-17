@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/jimkang/yet-another-module",
   "devDependencies": {
-    "eslint": "^3.6.1",
-    "tape": "^4.6.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "standard-bail": "^2.0.1"
+  }
 }

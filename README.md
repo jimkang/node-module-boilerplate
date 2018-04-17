@@ -6,26 +6,33 @@ cool-description-goes-here
 Installation
 ------------
 
-    npm install yet-another-module
+First, install Node. Then:
+
+    npm install
+    npm install wzrd -g
 
 Usage
 -----
 
-    var someFactory = require('yet-another-module');
-    var thing = someFactory();
-    thing.use();
+    make run    
 
-Tests
------
+Then, wzrd will say something like:
 
-Run tests with `make test`.
+    wzrd index.js
+    server started at http://localhost:9966
+
+You can open your browser to that.
+
+You can then add code starting in app.js. This won't compile down to ES 5 – expects clients to support ES 6. You can check out an earlier commit of this repo - d227984628e258a2cf82fa14926b0e452fe4f5f9 or earlier - if you want support for that.
+
+Run `make prettier` (expects you to have run `npm install -g prettier`) and `eslint .` before committing.
 
 License
 -------
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Jim Kang
+Copyright (c) 2017 Jim Kang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
